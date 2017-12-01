@@ -82,13 +82,17 @@ d3.json("/data/data.json", function(error, root) {
 
     path
         .data(partition.value(value).nodes)
-      .transition()
+        .transition()
         .duration(1000)
         .attrTween("d", arcTweenData);
   });
 
   function click(d) {
     node = d;
+    
+    // mskim: leaf node는 size attribute 를가지는 것을 이용해서 size attribute가 있으면 return시킴
+    if(node.size) return;
+
     path.transition()
       .duration(1000)
       .attrTween("d", arcTweenZoom(d));

@@ -106,33 +106,33 @@ path {
     // d3.json("flare.json", function(error, root) {
     // d3.json("https://bl.ocks.org/mbostock/raw/4063423/20e64dd96d0d857f39f20ee44a2f9fc508473cc5/flare.json", function(error, root) {
     // d3.json(testjson, function(error, root) {
-    node = root;
-    var path = svg.datum(root).selectAll("path")
-        .data(partition.nodes)
-        .enter().append("path")
-        .attr("d", arc)
-        .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
-        .on("click", click)
-        .each(stash);
+        node = root;
+        var path = svg.datum(root).selectAll("path")
+            .data(partition.nodes)
+            .enter().append("path")
+            .attr("d", arc)
+            .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+            .on("click", click)
+            .each(stash);
 
-    d3.selectAll("input").on("change", function change() {
-        var value = this.value === "count"
-            ? function() { return 1; }
-            : function(d) { return d.size; };
+        d3.selectAll("input").on("change", function change() {
+            var value = this.value === "count"
+                ? function() { return 1; }
+                : function(d) { return d.size; };
 
-        path
-            .data(partition.value(value).nodes)
-        .transition()
+            path
+                .data(partition.value(value).nodes)
+            .transition()
+                .duration(1000)
+                .attrTween("d", arcTweenData);
+        });
+
+        function click(d) {
+            node = d;
+            path.transition()
             .duration(1000)
-            .attrTween("d", arcTweenData);
-    });
-
-    function click(d) {
-        node = d;
-        path.transition()
-        .duration(1000)
-        .attrTween("d", arcTweenZoom(d));
-    }
+            .attrTween("d", arcTweenZoom(d));
+        }
     });
 
     d3.select(self.frameElement).style("height", height + "px");

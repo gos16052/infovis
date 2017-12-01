@@ -15,65 +15,46 @@
                                             {"name":"__pblk_map_invalidate","children":[
                                                 {"name":"lock_linelock_acquire","size":1},
                                                 {"name":"lock_linelock_usage","children":[
-                                                    {"name":"pblk_line_gc_list","size":1},
-                                                    {"name":"other","size":1}
+                                                    {"name":"pblk_line_gc_list","size":1}
                                                 ]},
                                                 {"name":"lock_lmggclock_acquire","size":1},
                                                 {"name":"lock_lmggclock_usage","children":[
-                                                    {"name":"list_move_tail","size":1},
-                                                    {"name":"other","size":1}
-                                                ]},
-                                                {"name":"other","size":1}
-                                            ]},
-                                            {"name":"other","size":1}
+                                                    {"name":"list_move_tail","size":1}
+                                                ]}
+                                            ]}
                                         ]},
-                                        {"name":"pblk_trans_map_set","size":1},
-                                        {"name":"other","size":1}
-                                    ]},
-                                    {"name":"other","size":1}
+                                        {"name":"pblk_trans_map_set","size":1}
+                                    ]}
                                 ]},
                                 {"name": "pblk_line_put", "children":[
                                     {"name":"__pblk_line_put","children":[
                                         {"name":"lock_linelock_acquire","size":1},
                                         {"name":"lock_linelock_usage","children":[
-                                            {"name":"pblk_line_free","size":1},
-                                            {"name":"other","size":1}
+                                            {"name":"pblk_line_free","size":1}
                                         ]},
                                         {"name":"lock_lmgfreelock_acquire","size":1},
                                         {"name":"lock_lmgfreelock_usage","children":[
-                                            {"name":"list_add_tail","size":1},
-                                            {"name":"other","size":1}
+                                            {"name":"list_add_tail","size":1}
                                         ]},
-                                        {"name":"pblk_rl_free_liince_inc","size":1},
-                                        {"name":"other","size":1}
-                                    ]},
-                                    {"name":"other","size":1}
+                                        {"name":"pblk_rl_free_liince_inc","size":1}
+                                    ]}
                                 ]},
                                 {"name": "clean_wctx", "children":[
-                                    {"name":"pblk_ppa_set_empty","size":1},
-                                    {"name":"other","size":1}
+                                    {"name":"pblk_ppa_set_empty","size":1}
                                 ]},
-                                {"name": "pblk_rl_out", "size":1},
-                                {"name": "other","size":1}
-                            ]},
-                            {"name": "other","size":1}
-                        ]},
-                        {"name": "other", "size":1}
+                                {"name": "pblk_rl_out", "size":1}
+                            ]}
+                        ]}
                     ]},
                     {"name": "pblk_rb_sync_point_set","children":[
                         {"name":"lock_slockirq_acquire", "size":1},
                         {"name":"lock_slockirq_usage", "children":[
-                            {"name":"bio_list_add","size":1},
-                            {"name":"other","size":1}
-                        ]},
-                        {"name":"other","size":1}
-                    ]},
-                    {"name": "other","size": 1}
+                            {"name":"bio_list_add","size":1}
+                        ]}
+                    ]}
                 ]},
-                {"name": "pblk_rl_user_in","size":1},
-                {"name": "other","size": 1}
-            ]},
-            {"name": "other","size": 1}
+                {"name": "pblk_rl_user_in","size":1}
+            ]}
     ]},
     {"name": "io_rescheule","size": 1},
     {"name": "pblk_ppa_set_empty","size": 1},
@@ -90,25 +71,18 @@
                         {"name":"__pblk_map_invalidate","children":[
                             {"name":"lock_linelock_acquire","size":1},
                             {"name":"lock_linelock_usage","children":[
-                                {"name":"pblk_line_gc_list","size":1},
-                                {"name":"other","size":1}
+                                {"name":"pblk_line_gc_list","size":1}
                             ]},
                             {"name":"lock_lmggclock_acquire","size":1},
                             {"name":"lock_lmggclock_usage","children":[
-                                {"name":"list_move_tail","size":1},
-                                {"name":"other","size":1}
-                            ]},
-                            {"name":"other","size":1}
-                        ]},
-                        {"name":"other","size":1}
+                                {"name":"list_move_tail","size":1}
+                            ]}
+                        ]}
                     ]},
                     {"name":"pblk_trans_map_set","size":1}
-                ]},
-                {"name":"other", "size":1}
-            ]},
-            {"name":"other","size":1}
-        ]},
-        {"name":"other","size":1}
+                ]}
+            ]}
+        ]}
     ]},
     {"name": "pblk_rl_inserted","size": 1},
     {"name": "pblk_write_should_kick","children": [
@@ -116,12 +90,9 @@
         {
             "name": "pblk_write_kick",
             "children": [
-                {"name": "wakeupprocess","size": 1},
-                {"name": "other","size": 1}
+                {"name": "wakeupprocess","size": 1}
             ]
-        },
-        {"name": "other","size": 1}
-    ]},
-    {"name": "other","size": 1}
+        }
+    ]}
 ]}
 
