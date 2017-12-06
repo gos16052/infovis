@@ -63,13 +63,15 @@ var arc = d3.svg.arc()
 var node;
 
 d3.json("/data/data.json", function(error, root) {
+  
 // d3.json("flare.json", function(error, root) {
 // d3.json("https://bl.ocks.org/mbostock/raw/4063423/20e64dd96d0d857f39f20ee44a2f9fc508473cc5/flare.json", function(error, root) {
 // d3.json(testjson, function(error, root) {
+  console.log(root)
   node = root;
   var path = svg.datum(root).selectAll("path")
       .data(partition.nodes)
-    .enter().append("path")
+      .enter().append("path")
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click)
@@ -131,6 +133,7 @@ function arcTweenData(a, i) {
 
 // When zooming: interpolate the scales.
 function arcTweenZoom(d) {
+  console.log(d)
   var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
       yd = d3.interpolate(y.domain(), [d.y, 1]),
       yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
