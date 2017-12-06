@@ -5,7 +5,7 @@
             {"name": "nvm_dev_dma_alloc","size": 15},
             {"name":"pblk_read_ppalist_rq", "children":[
                 {"name":"pblk_lookup_l2p_seq", "children":[
-                    {"name":"lock_translock_acquire","size":20},
+                    {"name":"lock_translock_acquire","size":500},
                     {"name":"lock_translock_usage","children":[
                         {"name": "pblk_trans_map_get","size": 20},
                         {"name":"pblk_addr_in_cache","size":20},
@@ -18,9 +18,9 @@
                 {"name":"pblk_addr_in_cache","size":20},
                 {"name":"pblk_read_from_cache","children":[
                     {"name":"pblk_rb_copy_to_bio","children":[
-                        {"name": "lock_wlock_acquire","size": 20},
+                        {"name": "lock_wlock_acquire","size": 500},
                         {"name": "lock_wlock_usage","children":[
-                            {"name":"lock_translock_acquire","size":20},
+                            {"name":"lock_translock_acquire","size":500},
                             {"name":"lock_translock_usage","children":[
                                 {"name":"pblk_trans_map_get","size":20},
                                 {"name": "other","size": 20}
@@ -32,7 +32,7 @@
                     {"name": "other","size": 20}
                 ]},
                 {"name":"pblk_lookup_l2p_seq", "children":[
-                    {"name":"lock_translock_acquire","size":20},
+                    {"name":"lock_translock_acquire","size":500},
                     {"name":"lock_translock_usage","children":[
                         {"name": "pblk_trans_map_get","size": 20},
                         {"name":"pblk_addr_in_cache","size":20},
@@ -48,9 +48,9 @@
                 {"name":"pblk_addr_in_cache","size":20},
                 {"name":"pblk_read_from_cache","children":[
                     {"name":"pblk_rb_copy_to_bio","children":[
-                        {"name": "lock_wlock_acquire","size": 20},
+                        {"name": "lock_wlock_acquire","size": 500},
                         {"name": "lock_wlock_usage","children":[
-                            {"name":"lock_translock_acquire","size":20},
+                            {"name":"lock_translock_acquire","size":500},
                             {"name":"lock_translock_usage","children":[
                                 {"name":"pblk_trans_map_get","size":20},
                                 {"name": "other","size": 20}
@@ -62,7 +62,7 @@
                     {"name": "other","size": 20}
                 ]},
                 {"name":"pblk_lookup_l2p_seq", "children":[
-                    {"name":"lock_translock_acquire","size":20},
+                    {"name":"lock_translock_acquire","size":500},
                     {"name":"lock_translock_usage","children":[
                         {"name": "pblk_trans_map_get","size": 20},
                         {"name":"pblk_addr_in_cache","size":20},
@@ -110,7 +110,7 @@
         {"name": "pblk_get_secs","size": 120},
         {"name": "pblk_write_to_cache","children": [
             {"name": "pblk_rb_may_write_user","children": [
-                    {"name": "lock_wlock_acquire","size": 20},
+                    {"name": "lock_wlock_acquire","size": 500},
                     {"name": "lock_wlock_usage","children":[
                         {"name": "pblk_rl_user_may_insert","size":20},
                         {"name": "pblk_rb_may_write_flush","children":[
@@ -118,17 +118,17 @@
                                 {"name": "pblk_rb_update_l2p","children":[
                                     {"name": "__pblk_rb_update_l2p","children":[
                                         {"name": "pblk_rb_update_map_dev","children":[
-                                            {"name":"lock_translock_acquire","size":20},
+                                            {"name":"lock_translock_acquire","size":500},
                                             {"name":"lock_translock_usage","children":[
                                                 {"name":"pblk_trans_map_get","size":20},
                                                 {"name":"pblk_map_invalidate","children":[
                                                     {"name":"__pblk_map_invalidate","children":[
-                                                        {"name":"lock_linelock_acquire","size":20},
+                                                        {"name":"lock_linelock_acquire","size":500},
                                                         {"name":"lock_linelock_usage","children":[
                                                             {"name":"pblk_line_gc_list","size":120},
                                                             {"name":"other","size":20}
                                                         ]},
-                                                        {"name":"lock_lmggclock_acquire","size":20},
+                                                        {"name":"lock_lmggclock_acquire","size":500},
                                                         {"name":"lock_lmggclock_usage","children":[
                                                             {"name":"list_move_tail","size":120},
                                                             {"name":"other","size":20}
@@ -144,12 +144,12 @@
                                         ]},
                                         {"name": "pblk_line_put", "children":[
                                             {"name":"__pblk_line_put","children":[
-                                                {"name":"lock_linelock_acquire","size":20},
+                                                {"name":"lock_linelock_acquire","size":500},
                                                 {"name":"lock_linelock_usage","children":[
                                                     {"name":"pblk_line_free","size":20},
                                                     {"name":"other","size":20}
                                                 ]},
-                                                {"name":"lock_lmgfreelock_acquire","size":20},
+                                                {"name":"lock_lmgfreelock_acquire","size":500},
                                                 {"name":"lock_lmgfreelock_usage","children":[
                                                     {"name":"list_add_tail","size":120},
                                                     {"name":"other","size":20}
@@ -171,7 +171,7 @@
                                 {"name": "other", "size":20}
                             ]},
                             {"name": "pblk_rb_sync_point_set","children":[
-                                {"name":"lock_slockirq_acquire", "size":20},
+                                {"name":"lock_slockirq_acquire", "size":500},
                                 {"name":"lock_slockirq_usage", "children":[
                                     {"name":"bio_list_add","size":120},
                                     {"name":"other","size":20}
@@ -191,19 +191,19 @@
                 {"name":"__pblk_rb_write_entry","size":20},
                 {"name":"pblk_update_map_cache","children":[
                     {"name":"pblk_update_map","children":[
-                        {"name":"lock_translock_acquire","size":20},
+                        {"name":"lock_translock_acquire","size":500},
                         {"name":"lock_translock_usage","children":[
                             {"name":"pblk_trans_map_get","size":20},
                             {"name":"pblk_addr_in_cache","size":20},
                             {"name":"pblk_ppa_empty","size":14},
                             {"name":"pblk_map_invalidate","children":[
                                 {"name":"__pblk_map_invalidate","children":[
-                                    {"name":"lock_linelock_acquire","size":20},
+                                    {"name":"lock_linelock_acquire","size":500},
                                     {"name":"lock_linelock_usage","children":[
                                         {"name":"pblk_line_gc_list","size":120},
                                         {"name":"other","size":20}
                                     ]},
-                                    {"name":"lock_lmggclock_acquire","size":20},
+                                    {"name":"lock_lmggclock_acquire","size":500},
                                     {"name":"lock_lmggclock_usage","children":[
                                         {"name":"list_move_tail","size":120},
                                         {"name":"other","size":20}

@@ -36,7 +36,7 @@ var svg = d3.select("body").append("svg")
 
 var partition = d3.layout.partition()
   .sort(null)
-  .value(function(d) { return 1; });
+  .value(function(d) { return d.size; });
 
 var arc = d3.svg.arc()
   .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
