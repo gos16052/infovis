@@ -47,7 +47,7 @@ var arc = d3.svg.arc()
 // Keep track of the node that is currently being displayed as the root.
 var node;
 
-d3.json("/data/data.json", function(error, root) {
+d3.json("/data/tdata.1.json", function(error, root) {
   /* mskim append */
   // Basic setup of page elements.
   initializeBreadcrumbTrail();
@@ -55,6 +55,7 @@ d3.json("/data/data.json", function(error, root) {
   d3.select("#togglelegend").on("click", toggleLegend);
   /* mskim append end */
   
+  console.log(root)
   node = root;
   var path = svg.datum(root).selectAll("path")
     .data(partition.nodes)

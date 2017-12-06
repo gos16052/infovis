@@ -1,0 +1,240 @@
+{"name": "pblk_make_rq","children": [
+    {"name":"pblk_rw_io","children": [
+        {"name":"pblk_submit_read","children":[
+            {"name": "pblk_alloc_rqd","size": 1},
+            {"name": "nvm_dev_dma_alloc","size": 1},
+            {"name":"pblk_read_ppalist_rq", "children":[
+                {"name":"pblk_lookup_l2p_seq", "children":[
+                    {"name":"lock_translock_acquire","size":200},
+                    {"name":"lock_translock_usage","children":[
+                        {"name": "pblk_trans_map_get","size": 1},
+                        {"name":"pblk_addr_in_cache","size":1},
+                        {"name":"pblk_ppa_empty","size":1},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"pblk_ppa_empty","size":1},
+                {"name":"pblk_addr_in_cache","size":1},
+                {"name":"pblk_read_from_cache","children":[
+                    {"name":"pblk_rb_copy_to_bio","children":[
+                        {"name": "lock_wlock_acquire","size": 1},
+                        {"name": "lock_wlock_usage","children":[
+                            {"name":"lock_translock_acquire","size":200},
+                            {"name":"lock_translock_usage","children":[
+                                {"name":"pblk_trans_map_get","size":1},
+                                {"name": "other","size": 1}
+                            ]},
+                            {"name": "other","size": 1}
+                        ]},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"pblk_lookup_l2p_seq", "children":[
+                    {"name":"lock_translock_acquire","size":200},
+                    {"name":"lock_translock_usage","children":[
+                        {"name": "pblk_trans_map_get","size": 1},
+                        {"name":"pblk_addr_in_cache","size":1},
+                        {"name":"pblk_ppa_empty","size":1},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"pblk_set_read_mode", "size":1},
+                {"name": "other","size": 1}
+            ]},
+            {"name":"pblk_read_rq","children":[
+                {"name":"pblk_addr_in_cache","size":1},
+                {"name":"pblk_read_from_cache","children":[
+                    {"name":"pblk_rb_copy_to_bio","children":[
+                        {"name": "lock_wlock_acquire","size": 1},
+                        {"name": "lock_wlock_usage","children":[
+                            {"name":"lock_translock_acquire","size":200},
+                            {"name":"lock_translock_usage","children":[
+                                {"name":"pblk_trans_map_get","size":1},
+                                {"name": "other","size": 1}
+                            ]},
+                            {"name": "other","size": 1}
+                        ]},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"pblk_lookup_l2p_seq", "children":[
+                    {"name":"lock_translock_acquire","size":200},
+                    {"name":"lock_translock_usage","children":[
+                        {"name": "pblk_trans_map_get","size": 1},
+                        {"name":"pblk_addr_in_cache","size":1},
+                        {"name":"pblk_ppa_empty","size":1},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"pblk_set_read_mode", "size":1},
+                {"name": "other","size": 1}
+            ]},
+            {"name":"__pblk_end_io_read","children":[
+                {"name":"pblk_read_check", "size":1},
+                {"name":"pblk_end_user_read", "size":1},
+                {"name":"pblk_read_put_rqd_kref", "size":1},
+                {"name":"pblk_free_rqd", "size":1},
+                {"name": "other","size": 1}
+            ]},
+            {"name":"pblk_submit_read_io","children":[
+                {"name":"pblk_submit_io","children":[
+                    {"name":"nvm_submit_io","size":1},
+                    {"name": "other","size": 1} 
+                ]},
+                {"name": "other","size": 1} 
+            ]},
+            {"name":"pblk_fill_partial_read_bio","children":[
+                {"name":"pblk_bio_add_pages","size":1},
+                {"name":"pblk_set_read_mode","size":1},
+                {"name":"pblk_submit_io_sync","children":[
+                    {"name":"nvm_submit_io_sync","size":1},
+                    {"name": "other","size": 1}
+                ]},
+                {"name":"__pblk_end_io_read","children":[
+                    {"name":"pblk_read_check", "size":1},
+                    {"name":"pblk_end_user_read", "size":1},
+                    {"name":"pblk_read_put_rqd_kref", "size":1},
+                    {"name":"pblk_free_rqd", "size":1},
+                    {"name": "other","size": 1}
+                ]},
+                {"name": "other","size": 1}
+            ]},
+            {"name": "other","size": 1}
+        ]},
+  
+        {"name": "pblk_get_secs","size": 1},
+        {"name": "pblk_write_to_cache","children": [
+            {"name": "pblk_rb_may_write_user","children": [
+                    {"name": "lock_wlock_acquire","size": 1},
+                    {"name": "lock_wlock_usage","children":[
+                        {"name": "pblk_rl_user_may_insert","size":1},
+                        {"name": "pblk_rb_may_write_flush","children":[
+                            {"name": "__pblk_rb_may_write","children":[
+                                {"name": "pblk_rb_update_l2p","children":[
+                                    {"name": "__pblk_rb_update_l2p","children":[
+                                        {"name": "pblk_rb_update_map_dev","children":[
+                                            {"name":"lock_translock_acquire","size":200},
+                                            {"name":"lock_translock_usage","children":[
+                                                {"name":"pblk_trans_map_get","size":1},
+                                                {"name":"pblk_map_invalidate","children":[
+                                                    {"name":"__pblk_map_invalidate","children":[
+                                                        {"name":"lock_linelock_acquire","size":200},
+                                                        {"name":"lock_linelock_usage","children":[
+                                                            {"name":"pblk_line_gc_list","size":1},
+                                                            {"name":"other","size":1}
+                                                        ]},
+                                                        {"name":"lock_lmggclock_acquire","size":200},
+                                                        {"name":"lock_lmggclock_usage","children":[
+                                                            {"name":"list_move_tail","size":1},
+                                                            {"name":"other","size":1}
+                                                        ]},
+                                                        {"name":"other","size":1}
+                                                    ]},
+                                                    {"name":"other","size":1}
+                                                ]},
+                                                {"name":"pblk_trans_map_set","size":1},
+                                                {"name":"other","size":1}
+                                            ]},
+                                            {"name":"other","size":1}
+                                        ]},
+                                        {"name": "pblk_line_put", "children":[
+                                            {"name":"__pblk_line_put","children":[
+                                                {"name":"lock_linelock_acquire","size":200},
+                                                {"name":"lock_linelock_usage","children":[
+                                                    {"name":"pblk_line_free","size":1},
+                                                    {"name":"other","size":1}
+                                                ]},
+                                                {"name":"lock_lmgfreelock_acquire","size":200},
+                                                {"name":"lock_lmgfreelock_usage","children":[
+                                                    {"name":"list_add_tail","size":1},
+                                                    {"name":"other","size":1}
+                                                ]},
+                                                {"name":"pblk_rl_free_liince_inc","size":1},
+                                                {"name":"other","size":1}
+                                            ]},
+                                            {"name":"other","size":1}
+                                        ]},
+                                        {"name": "clean_wctx", "children":[
+                                            {"name":"pblk_ppa_set_empty","size":1},
+                                            {"name":"other","size":1}
+                                        ]},
+                                        {"name": "pblk_rl_out", "size":1},
+                                        {"name": "other","size":1}
+                                    ]},
+                                    {"name": "other","size":1}
+                                ]},
+                                {"name": "other", "size":1}
+                            ]},
+                            {"name": "pblk_rb_sync_point_set","children":[
+                                {"name":"lock_slockirq_acquire", "size":200},
+                                {"name":"lock_slockirq_usage", "children":[
+                                    {"name":"bio_list_add","size":1},
+                                    {"name":"other","size":1}
+                                ]},
+                                {"name":"other","size":1}
+                            ]},
+                            {"name": "other","size": 1}
+                        ]},
+                        {"name": "pblk_rl_user_in","size":1},
+                        {"name": "other","size": 1}
+                    ]},
+                    {"name": "other","size": 1}
+            ]},
+            {"name": "io_rescheule","size": 1},
+            {"name": "pblk_ppa_set_empty","size": 1},
+            {"name": "pblk_rb_write_entry_user","children": [
+                {"name":"__pblk_rb_write_entry","size":1},
+                {"name":"pblk_update_map_cache","children":[
+                    {"name":"pblk_update_map","children":[
+                        {"name":"lock_translock_acquire","size":200},
+                        {"name":"lock_translock_usage","children":[
+                            {"name":"pblk_trans_map_get","size":1},
+                            {"name":"pblk_addr_in_cache","size":1},
+                            {"name":"pblk_ppa_empty","size":1},
+                            {"name":"pblk_map_invalidate","children":[
+                                {"name":"__pblk_map_invalidate","children":[
+                                    {"name":"lock_linelock_acquire","size":200},
+                                    {"name":"lock_linelock_usage","children":[
+                                        {"name":"pblk_line_gc_list","size":1},
+                                        {"name":"other","size":1}
+                                    ]},
+                                    {"name":"lock_lmggclock_acquire","size":200},
+                                    {"name":"lock_lmggclock_usage","children":[
+                                        {"name":"list_move_tail","size":1},
+                                        {"name":"other","size":1}
+                                    ]},
+                                    {"name":"other","size":1}
+                                ]},
+                                {"name":"other","size":1}
+                            ]},
+                            {"name":"pblk_trans_map_set","size":1}
+                        ]},
+                        {"name":"other", "size":1}
+                    ]},
+                    {"name":"other","size":1}
+                ]},
+                {"name":"other","size":1}
+            ]},
+            {"name": "pblk_rl_inserted","size": 1},
+            {"name": "pblk_write_should_kick","children": [
+                {"name": "pblk_rb_read_count","size": 1},
+                {
+                    "name": "pblk_write_kick",
+                    "children": [
+                        {"name": "wakeupprocess","size": 1},
+                        {"name": "other","size": 1}
+                    ]
+                },
+                {"name": "other","size": 1}
+            ]},
+            {"name": "other","size": 1}
+        ]},        
+        {"name": "other","size": 1}
+    ]},
+    {"name": "other","size": 1}
+]}
