@@ -30,7 +30,7 @@ var y = d3.scale.sqrt()
 var color = d3.scale.category20c();
 
 var svg = d3.select("#main").append("svg")
-	.attr("transform", "translate(" + 100 + ",50)") //mskim, sunburst x
+	.attr("transform", "translate(" + 0 + ",0)") //mskim, sunburst x
 	.attr("width", width)
 	.attr("height", height)
 	.append("g")
@@ -60,6 +60,12 @@ var arc = d3.svg.arc()
 // Keep track of the node that is currently being displayed as the root.
 var node;
 var path
+var BigData;
+
+function getData() {
+	console.log("getdata")
+	return {path: path, node: node,data: BigData}
+}
 
 d3.json("../data/tdata.1.json", function (error, root) {
 	/* mskim append */
@@ -69,17 +75,25 @@ d3.json("../data/tdata.1.json", function (error, root) {
 	// d3.select("#togglelegend").on("click", toggleLegend);
 	/* mskim append end */
 
+
 	console.log(root)
 	node = root;
 	path = svg.datum(root).selectAll("path")
 		.data(partition.nodes)
 		.enter().append("path")
+		.attr("class", "sun_path")
+		.attr("tt", 0)
+		.attr("id", function (d) {return "sun_" + d.name})
 		.attr("d", arc)
 		.attr("fill-rule", "evenodd")
 		.style("fill", function (d) {
 			return color((d.children ? d : d.parent).name);
 		})
-		.on("click", click)
+		.on("click", function(d){
+			
+			// let sun = d3.select("#tree_" + d.name).node()
+			// console.log(sun.dispatchEvent(new MouseEvent("click")));
+			click(d)})
 		.style("opacity", 1)
 		.each(stash)
 		// mskim: append below
@@ -109,6 +123,7 @@ d3.json("../data/tdata.1.json", function (error, root) {
 	});
 
 	function click(d) {
+		console.log(d)
 		node = d;
 
 		// mskim: leaf node는 size attribute 를가지는 것을 이용해서 size attribute가 있으면 return시킴
@@ -156,6 +171,7 @@ function arcTweenData(a, i) {
 
 // When zooming: interpolate the scales.
 function arcTweenZoom(d) {
+	// d.children = d.children
 	var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
 		yd = d3.interpolate(y.domain(), [d.y, 1]),
 		yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
@@ -196,11 +212,11 @@ function mouseover(d) {
 	updateBreadcrumbs(sequenceArray, percentageString);
 
 	// Fade all the segments.
-	d3.selectAll("path")
+	d3.selectAll(".sun_path")
 		.style("opacity", 0.4);
 
 	// Then highlight only those that are an ancestor of the current segment.
-	svg.selectAll("path")
+	svg.selectAll(".sun_path")
 		.filter(function (node) {
 			return (sequenceArray.indexOf(node) >= 0);
 		})
@@ -214,10 +230,10 @@ function mouseleave(d) {
 	// 	.style("visibility", "hidden");
 
 	// Deactivate all segments during transition.
-	d3.selectAll("path").on("mouseover", null);
+	d3.selectAll(".sun_path").on("mouseover", null);
 
 	// Transition each segment to full opacity and then reactivate it.
-	d3.selectAll("path")
+	d3.selectAll(".sun_path")
 		.transition()
 		// .duration(1000)
 		.style("opacity", 1)
@@ -246,7 +262,7 @@ function initializeBreadcrumbTrail() {
 	var trail = d3.select("#sequence")
 		.append("svg:svg")
 		.attr("width", width * 2)
-		.attr("height", height)
+		.attr("height", 50)
 		.attr("id", "trail");
 	// Add the label at the end, for the percentage.
 	trail.append("svg:text")
