@@ -8,6 +8,12 @@ var colors = {
 	"other": "#a173d1",
 	"end": "#bbbbbb"
 };
+
+function google20c(n) {
+	var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
+	return colores_g[n % colores_g.length];
+}
+
 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
 var b = {
 	w: 75,
@@ -27,7 +33,10 @@ var x = d3.scale.linear()
 var y = d3.scale.sqrt()
 	.range([0, radius]);
 
+
+
 var color = d3.scale.category20c();
+
 
 var svg = d3.select("#main").append("svg")
 	.attr("transform", "translate(" + 0 + ",0)") //mskim, sunburst x
@@ -67,7 +76,7 @@ function getData() {
 	return {path: path, node: node,data: BigData}
 }
 
-d3.json("../data/tdata.1.json", function (error, root) {
+d3.json("../data/data_t.json", function (error, root) {
 	/* mskim append */
 	// Basic setup of page elements.
 	initializeBreadcrumbTrail();
@@ -76,7 +85,6 @@ d3.json("../data/tdata.1.json", function (error, root) {
 	/* mskim append end */
 
 
-	console.log(root)
 	node = root;
 	path = svg.datum(root).selectAll("path")
 		.data(partition.nodes)
@@ -86,14 +94,19 @@ d3.json("../data/tdata.1.json", function (error, root) {
 		.attr("id", function (d) {return "sun_" + d.name})
 		.attr("d", arc)
 		.attr("fill-rule", "evenodd")
-		.style("fill", function (d) {
-			return color((d.children ? d : d.parent).name);
-		})
-		.on("click", function(d){
+		.style("fill", function (d, i) {
+			var dname = (d.children ? d : d.parent).name
 			
+			if(d.parent != undefined){
+				console.log(d.parent.children)
+			}
+			return color(dname);
+		})
+		.on("click", function(d){	
 			// let sun = d3.select("#tree_" + d.name).node()
 			// console.log(sun.dispatchEvent(new MouseEvent("click")));
-			click(d)})
+			click(d)}
+		)
 		.style("opacity", 1)
 		.each(stash)
 		// mskim: append below
