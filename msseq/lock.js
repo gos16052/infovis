@@ -1,9 +1,15 @@
 var lockColors = [
     "#FF0000",
+    // "#EE0000",
     "#DD0000",
+    // "#CC0000",
     "#BB0000",
+    // "#AA0000",
     "#880000",
-    "#660000"
+    // "#770000",
+    "#660000",
+    // "#550000",
+    "#440000",
 ];
 
 var locks = Array();
@@ -12,23 +18,28 @@ function findLock(lock){
     return locks[indexOfLock(lock)];
 }
 
-function indexOfLock(lock){
+function indexOfLock(lockName){
     for(i=0; i<locks.length; i++){
-        if(locks[i] == lock){
+        if(locks[i].name == lockName){
             return i;
         }
     }
     return -1;
 }
 
-function appendLock(lockName){
-    var lock = { 
-        name: lockName,
-        color: lockColors[locks.length],
-        acquire: Array(),
-        usage: Array()
-    } 
-    locks.push(lock);
+function appendLock(lockName, node){
+    index = indexOfLock(lockName)
+    
+    if(index == -1){
+        var lock = { 
+            name: lockName,
+            color: lockColors[locks.length],
+            acquire: [node]
+        } 
+        locks.push(lock);
+        return lock;
+    }
+    return locks[index];
 }
 
 /*  return lock name in the function name

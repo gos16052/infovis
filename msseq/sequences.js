@@ -96,10 +96,13 @@ d3.json("../data/data_t.json", function (error, root) {
 		.attr("fill-rule", "evenodd")
 		.style("fill", function (d, i) {
 			var dname = (d.children ? d : d.parent).name
-			
-			if(d.parent != undefined){
-				console.log(d.parent.children)
+			if(isLock(d.name)){
+				var lock = appendLock(d.name, d)
+				return lock.color
 			}
+			// if(d.parent != undefined){
+			// 	console.log(d.parent.children)
+			// }
 			return color(dname);
 		})
 		.on("click", function(d){	
