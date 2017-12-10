@@ -98,6 +98,7 @@ d3.json("../data/data_t.json", function (error, root) {
 			var dname = (d.children ? d : d.parent).name
 			if(isLock(d.name)){
 				var lock = appendLock(d.name, d)
+				console.log(lock)
 				return lock.color
 			}
 			// if(d.parent != undefined){
