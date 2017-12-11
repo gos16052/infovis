@@ -118,6 +118,7 @@ d3.json("../data/data.json", function (error, root) {
 	// d3.select("#togglelegend").on("click", toggleLegend);
 	/* mskim append end */
 
+	console.log(root)
 
 	node = root;
 	path = svg.datum(root).selectAll("path")
@@ -328,7 +329,7 @@ function initializeBreadcrumbTrail() {
 	var trail = d3.select("#sequence")
 		.append("svg:svg")
 		.attr("width", width * 2)
-		.attr("height", 50)
+		.attr("height", 120)
 		.attr("id", "trail");
 	// Add the label at the end, for the percentage.
 	trail.append("svg:text")
@@ -436,7 +437,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 		})
 		.on("click", clickNav);
 
-	console
+	// console
 	//lock
 	entering.append("svg:rect")
 		.filter(function(v){
@@ -460,11 +461,19 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
 
 	let padding_left = 0;
+	let lock_height = 0;
+	let locks = 0;
 	// Set position for entering and updating nodes.
 	g.attr("transform", function (d, i) {
+		if (d.name.indexOf("lock") == 0) {
+			locks++;
+			padding_left = 100 * locks;
+			lock_height += b.h;
+		}
 		let width = this.childNodes[0].getAttribute("width");
-		let ret = "translate(" + padding_left + ", " + 0 + ")"
+		let ret = "translate(" + padding_left + ", " + lock_height + ")"
 		padding_left += Number(width);
+		
 		return ret;
 	});
 
