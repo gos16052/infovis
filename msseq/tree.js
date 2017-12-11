@@ -19,7 +19,7 @@ var vis = d3.select("#main").append("svg:svg")
 	.append("svg:g")
 	.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.json("../data/tdata.1.json", function (json) {
+d3.json("../data/data_t.json", function (json) {
 	root = json;
 	root.x0 = h / 2;
 	root.y0 = 0;
@@ -55,6 +55,7 @@ function update(source) {
 	nodes.forEach(function (d) {
 		d.y = d.depth * 180;
 	});
+	console.log(source)
 
 	// Update the nodes…
 	var node = vis.selectAll("g.node")
@@ -90,9 +91,10 @@ function update(source) {
 			update(d);
 			// clickNav(d)
 			let sun = d3.select("#sun_" + d.name).node()
+			// console.log("#sun_" + d.name)
 			console.log(sun.dispatchEvent(new MouseEvent("click")))
 		});
-
+		
 	nodeEnter.append("svg:circle")
 		.attr("r", 1e-6)
 		.style("fill", function (d) {
