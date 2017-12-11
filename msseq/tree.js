@@ -95,7 +95,7 @@ function update(source) {
 			// console.log("#sun_" + d.name)
 			console.log(sun.dispatchEvent(new MouseEvent("click")))
 			
-			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 120 * d.depth) + "," + m[0] + ")");
+			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		});
 		
 	nodeEnter.append("svg:circle")
@@ -118,7 +118,6 @@ function update(source) {
 			return d.children || d._children ? "start" : "start";
 		})
 		.text(function (d) {
-			console.log(d.name)
 			return d.name + "()";
 		})
 		.style('fill', function (d) {
@@ -131,6 +130,8 @@ function update(source) {
 			// clickNav(d)
 			let sun = d3.select("#sun_" + d.name).node()
 			console.log(sun.dispatchEvent(new MouseEvent("click")))
+			console.log(d.depth)
+			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		});;
 
 	nodeEnter.append("svg:title")
