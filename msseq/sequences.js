@@ -495,7 +495,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 		.style("visibility", "");
 
 }
-
+ 
 function drawLegend() {
 
 	// Dimensions of legend item: width, height, spacing, radius of rounded rect.
