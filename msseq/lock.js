@@ -12,34 +12,43 @@ var lockColors = [
     "#440000",
 ];
 
-var locks = Array();
+var _locks = Array();
 
+function getLocks(){
+    return _locks;
+}
 function findLock(lock){
-    return locks[indexOfLock(lock)];
+    return _locks[indexOfLock(lock)];
 }
 
 function indexOfLock(lockName){
-    for(i=0; i<locks.length; i++){
-        if(locks[i].name == lockName){
+    for(i=0; i<_locks.length; i++){ 
+        if(_locks[i].name == lockName){
             return i;
         }
     }
     return -1;
 }
 
-function appendLock(lockName, node){
-    index = indexOfLock(lockName)
+function getLock(lockName){
+    return _locks[indexOfLock(lockName)]
+}
+
+function appendLock(fname, node){
+    var lockName = getLockName(fname);
+    var index = indexOfLock(lockName);
     
     if(index == -1){
         var lock = { 
             name: lockName,
-            color: lockColors[locks.length],
+            color: lockColors[_locks.length],
             acquire: [node]
         } 
-        locks.push(lock);
+        _locks.push(lock);
         return lock;
     }
-    return locks[index];
+    _locks[index].acquire.push(node);
+    return _locks[index];
 }
 
 /*  return lock name in the function name
@@ -69,17 +78,18 @@ function isLock(name){
     return false;
 }
 
-/*  append "lock" to "locks"
+
+/*  append "lock" to "_locks"
     @input
         name: function name
 */
 function addLock(name){
     lock = getLockName(name);
-    // check if the lock exists in locks
+    // check if the lock exists in _locks
     var lockIndex = indexOfLock(lock)
     if(lockIndex == -1){
         appnedLock(lock);
-        lockIndex = locks.length - 1;
+        lockIndex = _locks.length - 1;
     }
 }
 

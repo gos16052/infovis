@@ -72,11 +72,45 @@ var path
 var BigData;
 
 function getData() {
-	console.log("getdata")
+	// console.log("getdata")
 	return {path: path, node: node,data: BigData}
 }
 
-d3.json("../data/data_t.json", function (error, root) {
+function updateLockInfo(node){
+	if(node.children == undefined) return;
+	var locks = Array();
+
+	for(var i=0; i<node.children.length; i++){
+		
+		locks.forEach(function(v){
+			node.children[i].locks = Array();
+			node.children[i].locks.push(v);
+		})
+		updateLockInfo(node.children[i]);
+		if(isLock(node.children[i].name)){
+ 			locks.push(getLock(node.children[i].name))
+		}
+
+
+		// remove lock,
+		if(node.children[i].name.indexOf("lock") != -1 && 
+			(ind = node.children[i].name.indexOf("_other")) != -1){
+			var lockName = node.children[i].name.substring(0,ind)
+			var rmIndex = -1;
+			for(var j=0; j<locks.length; j++){
+				if(locks[j].name.indexOf(lockName) != -1){
+					rmIndex = j;
+					break;
+				}
+			}
+			if(rmIndex != -1){
+				locks.splice(rmIndex,1);
+			}
+		}
+	}
+}
+
+d3.json("../data/data.json", function (error, root) {
 	/* mskim append */
 	// Basic setup of page elements.
 	initializeBreadcrumbTrail();
@@ -98,7 +132,7 @@ d3.json("../data/data_t.json", function (error, root) {
 			var dname = (d.children ? d : d.parent).name
 			if(isLock(d.name)){
 				var lock = appendLock(d.name, d)
-				console.log(lock)
+				// console.log(lock.acquire)
 				return lock.color
 			}
 			// if(d.parent != undefined){
@@ -107,15 +141,25 @@ d3.json("../data/data_t.json", function (error, root) {
 			return color(dname);
 		})
 		.on("click", function(d){	
+			console.log(d)
 			// let sun = d3.select("#tree_" + d.name).node()
 			// console.log(sun.dispatchEvent(new MouseEvent("click")));
-			click(d)}
-		)
+			click(d)
+		})
 		.style("opacity", 1)
 		.each(stash)
 		// mskim: append below
 		.on("mouseover", mouseover);
+	
+	console.log(getLocks())
+	// updateLockInfo(node);
 
+	$("path.sun_path").mousedown(function(e){
+		if(e.which == 2){ //wheel click 
+			//fix bar
+			// fixbar();
+		}
+	})
 	/* mskim append */
 	// Add the mouseleave handler to the bounding circle.
 	d3.select("#container").on("mouseleave", mouseleave);
@@ -140,7 +184,7 @@ d3.json("../data/data_t.json", function (error, root) {
 	});
 
 	function click(d) {
-		console.log(d)
+		// console.log(d)
 		node = d;
 
 		// mskim: leaf node는 size attribute 를가지는 것을 이용해서 size attribute가 있으면 return시킴
@@ -211,7 +255,7 @@ function arcTweenZoom(d) {
 
 // Fade all but the current sequence, and show it in the breadcrumb trail.
 function mouseover(d) {
-	console.log("hover")
+	// console.log("hover")
 
 	var percentage = (100 * d.value / totalSize).toPrecision(3);
 	var percentageString = percentage + "%";
@@ -226,6 +270,7 @@ function mouseover(d) {
 		.style("visibility", "");
 
 	var sequenceArray = getAncestors(d);
+	//
 	updateBreadcrumbs(sequenceArray, percentageString);
 
 	// Fade all the segments.
@@ -271,6 +316,10 @@ function getAncestors(node) {
 		path.unshift(current);
 		current = current.parent;
 	}
+	
+	// mskim, 상단 바에 root function이 안보이는 문제 수정 
+	path.unshift(current);
+
 	return path;
 }
 
@@ -330,15 +379,31 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
 	entering.append("svg:rect")
 		.attr("width", function (d) {
-			return d.name.length * 6.3 + 10;
-			return b.w;
+
+			var len;
+			if(isLock(d.name)){
+				var lockName = getLockName(d.name)
+				len = lockName.length;
+			}
+			else {
+				len = d.name.length
+			}
+			return len * 6.3 + 10;
+
+			// return d.name.length * 6.3 + 10;
+			// return b.w;
 		})
 		.attr("height", b.h)
 		.style("fill", function (d) {
+			if(isLock(d.name)){
+				var lockName = getLockName(d.name)
+				return getLock(lockName).color
+			}
 			return color((d.children ? d : d.parent).name);
 		})
-		.on("click", clickNav)
+		.on("click", clickNav);
 
+	
 	// mskim
 	// entering.append("svg:text")
 	//     .attr("x", (b.w + b.t) / 2)
@@ -348,18 +413,53 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 	//     .text(function(d) { return d.name; });
 	entering.append("svg:text")
 		.attr("x", function (d) {
-			return d.name.length * 6.3/2 + 5;
+			var len;
+			if(isLock(d.name)){
+				var lockName = getLockName(d.name)
+				len = lockName.length;
+			}
+			else {
+				len = d.name.length
+			}
+			return len * 6.3/2 + 5;
 		})
 		.attr("y", 3)
 		.attr("dy", "15px")
 		.attr("class", "nav_text")
 		.attr("text-anchor", "middle")
 		.text(function (d) {
+			if(isLock(d.name)){
+				var lockName = getLockName(d.name)
+				return lockName
+			}
 			return d.name;
 		})
 		.on("click", clickNav);
 
-		let padding_left = 0;
+	console
+	//lock
+	entering.append("svg:rect")
+		.filter(function(v){
+			return v.locks != undefined;
+		})
+		.attr("width", function(d) { return d.name.length*6.3 + 10;})
+		.attr("height", b.h)
+		.style("fill", function(d){
+			console.log(d)
+			return d.locks[0].color;
+		})
+		.attr("transform", "translate(0,"+b.h+")")
+		.append("text")
+		.attr("x", function(d) { return d.name.length *6.3/2+5; })
+		.attr("y", 3 + b.h)
+		.attr("dy", "15px")
+		.attr("class", "nav_text")
+		.attr("text-anchor", "middle")
+		.text(function(d) { return d.locks[0].name; })
+		.attr("transform", "translate(0,"+b.h+")")
+
+
+	let padding_left = 0;
 	// Set position for entering and updating nodes.
 	g.attr("transform", function (d, i) {
 		let width = this.childNodes[0].getAttribute("width");
