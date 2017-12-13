@@ -118,7 +118,7 @@ d3.json("../data/data.json", function (error, root) {
 	// d3.select("#togglelegend").on("click", toggleLegend);
 	/* mskim append end */
 
-	console.log(root)
+	// console.log(root)
 
 	node = root;
 	path = svg.datum(root).selectAll("path")
@@ -126,7 +126,7 @@ d3.json("../data/data.json", function (error, root) {
 		.enter().append("path")
 		.attr("class", "sun_path")
 		.attr("tt", 0)
-		.attr("id", function (d) {return "sun_" + d.name})
+		.attr("id", function (d) {return "sun_" + d.name + "-" + d.depth})
 		.attr("d", arc)
 		.attr("fill-rule", "evenodd")
 		.style("fill", function (d, i) {
@@ -142,8 +142,8 @@ d3.json("../data/data.json", function (error, root) {
 			return color(dname);
 		})
 		.on("click", function(d){	
-			console.log(d)
-			// let sun = d3.select("#tree_" + d.name).node()
+			// console.log(d)
+			// let sun = d3.select("#tree_" + d.name + "-" + d.depth).node()
 			// console.log(sun.dispatchEvent(new MouseEvent("click")));
 			click(d)
 		})
@@ -152,7 +152,7 @@ d3.json("../data/data.json", function (error, root) {
 		// mskim: append below
 		.on("mouseover", mouseover);
 	
-	console.log(getLocks())
+	// console.log(getLocks())
 	// updateLockInfo(node);
 
 	$("path.sun_path").mousedown(function(e){
@@ -378,8 +378,22 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 			.attrTween("d", arcTweenZoom(d));
 	}
 
+
+	let curLocks = 0;
+	let lockHeight = 0;
+
+	
 	entering.append("svg:rect")
+		.attr("vv", function (d) {
+			lockHeight = 0;
+			curLocks = 0;
+		})
+		.attr("class", "ss")
 		.attr("width", function (d) {
+			
+			if (d.name.indexOf("lock") == 0) {
+				lockHeight++;
+			}
 
 			var len;
 			if(isLock(d.name)){
@@ -394,7 +408,21 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 			// return d.name.length * 6.3 + 10;
 			// return b.w;
 		})
-		.attr("height", b.h)
+		.attr("height", function (d) {
+			if (d.name.indexOf("lock") == 0) {
+				curLocks++;
+				// console.log(lockHeight - curLocks + 1);
+				let t = (lockHeight - curLocks + 1)
+				// curLocks = 0;
+				return b.h * t;
+			} else {
+				return b.h
+			}
+			// if (locks == 0) {
+			// } else {
+			// 	return b.h * 2
+			// }
+		})
 		.style("fill", function (d) {
 			if(isLock(d.name)){
 				var lockName = getLockName(d.name)
@@ -403,7 +431,29 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 			return color((d.children ? d : d.parent).name);
 		})
 		.on("click", clickNav);
-
+	
+	g.selectAll(".ss")
+	.attr("vv", function (d) {
+		lockHeight = 0;
+		curLocks = 0;
+		console.log("vv")
+	})
+	.attr("tt", function (d) {
+		if (d.name.indexOf("lock") == 0) {
+			lockHeight++;
+		}
+	})
+	.attr("height", function (d) {
+		if (d.name.indexOf("lock") == 0) {
+			curLocks++;
+			console.log(lockHeight);
+			console.log(lockHeight - curLocks + 1);
+			let t = (lockHeight - curLocks + 1)
+			return b.h * t;
+		} else {
+			return b.h
+		}
+	})
 	
 	// mskim
 	// entering.append("svg:text")
@@ -461,17 +511,36 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
 
 	let padding_left = 0;
+	let padding_arr = [];
 	let lock_height = 0;
 	let locks = 0;
 	// Set position for entering and updating nodes.
 	g.attr("transform", function (d, i) {
+		let width = this.childNodes[0].getAttribute("width");
+		let ret;
 		if (d.name.indexOf("lock") == 0) {
 			locks++;
-			padding_left = 100 * locks;
+			if (locks == 1) {
+				padding_arr.push(100);
+			} 
+
+			if (locks > 0) {
+				padding_left = padding_arr[0]
+				
+				for (let i = 1; i < padding_arr.length; i++) {
+					padding_left += Number(padding_arr[i]);
+				}
+			}
+			// else {
+			// 	padding_arr.push(Number(width))
+			// }
 			lock_height += b.h;
+			
+			ret = "translate(" + padding_left + ", " + lock_height + ")"
+			padding_arr.push(Number(width))
+		} else {
+			ret = "translate(" + padding_left + ", " + lock_height + ")"
 		}
-		let width = this.childNodes[0].getAttribute("width");
-		let ret = "translate(" + padding_left + ", " + lock_height + ")"
 		padding_left += Number(width);
 		
 		return ret;
@@ -479,6 +548,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
 	// Remove exiting nodes.
 	g.exit().remove();
+
 
 	// Now move and update the percentage at the end.
 	d3.select("#trail").select("#endlabel")
