@@ -143,8 +143,12 @@ d3.json("../data/data.json", function (error, root) {
 		})
 		.on("click", function(d){	
 			// console.log(d)
-			// let sun = d3.select("#tree_" + d.name + "-" + d.depth).node()
-			// console.log(sun.dispatchEvent(new MouseEvent("click")));
+			let tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
+			console.log(tree.dispatchEvent(new MouseEvent("click2")));
+			click(d)
+		})
+		.on("click2", function(d){
+			console.log("click2 in sun")
 			click(d)
 		})
 		.style("opacity", 1)
@@ -436,7 +440,6 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 	.attr("vv", function (d) {
 		lockHeight = 0;
 		curLocks = 0;
-		console.log("vv")
 	})
 	.attr("tt", function (d) {
 		if (d.name.indexOf("lock") == 0) {
@@ -446,8 +449,6 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 	.attr("height", function (d) {
 		if (d.name.indexOf("lock") == 0) {
 			curLocks++;
-			console.log(lockHeight);
-			console.log(lockHeight - curLocks + 1);
 			let t = (lockHeight - curLocks + 1)
 			return b.h * t;
 		} else {

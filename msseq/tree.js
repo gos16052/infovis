@@ -59,8 +59,6 @@ function cleanOther(obj) {
 function update(source) {
 	var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-	console.log(source)
-
 	cleanOther(root)
 
 	// Compute the new tree layout.
@@ -109,9 +107,16 @@ function update(source) {
 			// clickNav(d)
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			// console.log("#sun_" + d.name)
-			console.log(sun.dispatchEvent(new MouseEvent("click")))
+			console.log(sun.dispatchEvent(new MouseEvent("click2")))
 			
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
+		})
+		.on("click2", function (d) {
+			console.log("click2 in tree")
+			console.log(d)
+			// if (d.)
+			toggle(d);
+			update(d);
 		});
 		
 	nodeEnter.append("svg:circle")
