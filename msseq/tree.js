@@ -42,16 +42,28 @@ d3.json("../data/data.json", function (json) {
 	// toggle(root.children[1].children[2]);
 	// toggle(root.children[9]);
 	// toggle(root.children[9].children[0]);
+	cleanOther(root)
 
 	update(root);
 });
 
 function cleanOther(obj) {
-	for (let i = 0; i < obj.children.length; i++) {
-		if (obj.children[i].name == "other") {
-			obj.children.splice(i, 1)
-		} else if (obj.children[i].children) {
-			cleanOther(obj.children[i])
+	// console.log(obj)
+	if (obj._children) {
+		for (let i = 0; i < obj._children.length; i++) {
+			if (obj._children[i].name == "other") {
+				obj._children.splice(i, 1)
+			} else {
+				cleanOther(obj._children[i])
+			}
+		}
+	} else if (obj.children) {
+		for (let i = 0; i < obj.children.length; i++) {
+			if (obj.children[i].name == "other") {
+				obj.children.splice(i, 1)
+			} else {
+				cleanOther(obj.children[i])
+			}
 		}
 	}
 }
@@ -59,7 +71,7 @@ function cleanOther(obj) {
 function update(source) {
 	var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-	cleanOther(root)
+	// console.log(root)
 
 	// Compute the new tree layout.
 	var nodes = tree.nodes(root).reverse();
@@ -107,13 +119,13 @@ function update(source) {
 			// clickNav(d)
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			// console.log("#sun_" + d.name)
-			console.log(sun.dispatchEvent(new MouseEvent("click2")))
+			sun.dispatchEvent(new MouseEvent("click2"));
 			
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("click2", function (d) {
 			console.log("click2 in tree")
-			console.log(d)
+			// console.log(d)
 			// if (d.)
 			toggle(d);
 			update(d);
@@ -154,10 +166,8 @@ function update(source) {
 			// d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("mouseover", function (d) {
-			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
-			// console.log("#sun_" + d.name + "-" + d.depth)
-			// console.log(sun)
-			console.log(sun.dispatchEvent(new MouseEvent("mouseover")))
+			// let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
+			// sun.dispatchEvent(new MouseEvent("mouseover"))
 		});
 
 	nodeEnter.append("svg:title")
@@ -195,9 +205,11 @@ function update(source) {
 	nodeExit.select("text")
 		.style("fill-opacity", 1e-6);
 
+		// console.log(nodes)
 	// Update the links…
-	var link = vis.selectAll("path.link")
+	let link = vis.selectAll("path.link")
 		.data(tree.links(nodes), function (d) {
+			// console.log(d)
 			return d.target.id;
 		});
 
@@ -205,7 +217,7 @@ function update(source) {
 	link.enter().insert("svg:path", "g")
 		.attr("class", "link")
 		.attr("d", function (d) {
-			console.log(d)
+			// console.log(d)
 			var o = {
 				x: source.x0,
 				y: source.y0
