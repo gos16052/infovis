@@ -402,6 +402,9 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 			var len;
 			if(isLock(d.name)){
 				var lockName = getLockName(d.name)
+				if(d.name.indexOf("acquire") != -1){
+					lockName = d.name;
+				}
 				len = lockName.length;
 			}
 			else {
@@ -468,6 +471,9 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 			var len;
 			if(isLock(d.name)){
 				var lockName = getLockName(d.name)
+				if(d.name.indexOf("acquire") != -1){
+					lockName = d.name;
+				}
 				len = lockName.length;
 			}
 			else {
@@ -482,6 +488,9 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 		.text(function (d) {
 			if(isLock(d.name)){
 				var lockName = getLockName(d.name)
+				if(d.name.indexOf("acquire") != -1){
+					lockName = d.name;
+				}
 				return lockName
 			}
 			return d.name;

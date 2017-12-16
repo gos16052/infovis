@@ -72,7 +72,7 @@ function getLockName(name){
         whether the function is about lock
 */
 function isLock(name){
-    if(name.indexOf("lock") == 0){
+    if(name.indexOf("lock") != -1){
         return true;
     }
     return false;
