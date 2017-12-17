@@ -49,16 +49,6 @@ d3.json("../data/data.json", function (json) {
 });
 
 function cleanOther(obj) {
-	// console.log(obj)
-	// if (obj._children) {
-	// 	for (let i = 0; i < obj._children.length; i++) {
-	// 		if (obj._children[i].name == "other") {
-	// 			obj._children.splice(i, 1)
-	// 		} else {
-	// 			cleanOther(obj._children[i])
-	// 		}
-	// 	}
-	// } else 
 	if (obj.children) {
 		for (let ii = 0; ii < obj.children.length; ii++) {
 			if (obj.children[ii].name == "other") {
@@ -73,37 +63,17 @@ function cleanOther(obj) {
 function update(source) {
 	var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-	// console.log(root)
 	// Compute the new tree layout.
 	var nodes = tree.nodes(root).reverse();
 	// Normalize for fixed-depth.
 	nodes.forEach(function (d) {
 		d.y = d.depth * 180;
 	});
-	// console.log(source)
-
-
 	// Update the nodes…
 	var node = vis.selectAll("g.node")
 		.data(nodes, function (d) {
 			return d.id || (d.id = ++I);
 		});
-
-	// var tt = getData()
-	// var path = tt.path
-	// var tNode = tt.node
-
-	// function clickNav(d) {
-	// 	tNode = d;
-	// 	// d.children = d._children;
-
-	// 	// mskim: leaf node는 size attribute 를가지는 것을 이용해서 size attribute가 있으면 return시킴
-	// 	if (tNode.size) return;
-
-	// 	path.transition()
-	// 		.duration(500)
-	// 		.attrTween("d", arcTweenZoom(d));
-	// }
 
 	// Enter any new nodes at the parent's previous position.
 	
@@ -122,11 +92,12 @@ function update(source) {
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("click2", function (d) {
-			console.log("click2 in tree")
+			console.log("Triggered click2 in tree, from sun node")
 			// console.log(d)
 			// if (d.)
 			toggle(d);
 			update(d);
+			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		});
 		
 	nodeEnter.append("svg:circle")
@@ -141,6 +112,9 @@ function update(source) {
 		})
 		.append("svg:text")
 		.attr("class", "tree_text")
+		.attr("id", (d) => {
+			return "tree_text_" + d.name;
+		})
 		.attr("x", function (d) {
 			return d.children || d._children ? -30 : -30;
 		})
@@ -160,6 +134,7 @@ function update(source) {
 			toggle(d);
 			// update(d);
 			// clickNav(d)
+			console.log("Click tree text to trigger sun node click2!")
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			sun.dispatchEvent(new MouseEvent("click2"));
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
@@ -167,9 +142,18 @@ function update(source) {
 		.on("mouseover", function (d) {
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			sun.dispatchEvent(new MouseEvent("mouseover"))
-			// let link = d3.select("#link_" + d.name)
-			// link.style("stroke", "red")
 			linkPathColor(d, "red")
+		})
+		.on("mouseover2", function (d) {
+			function findT(d) {
+				let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
+				// console.log(sun)
+				if (!sun) {
+					findT(d.parent)
+				}
+				linkPathColor(d, "red")
+			}
+			findT(d)
 		})
 		.on("mouseleave", function (d) {
 			linkPathColor(d, "#ccc")

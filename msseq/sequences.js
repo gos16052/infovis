@@ -141,11 +141,9 @@ d3.json("../data/data.json", function (error, root) {
 			// }
 			return color(dname);
 		})
-		.on("click", function(d){	
-			// console.log(d)
+		.on("click", function(d){
 			console.log("From sun click node, trigger tree click2")
-			let tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
-			console.log(tree.dispatchEvent(new MouseEvent("click2")));
+			findTree(d)
 			click(d)
 		})
 		.on("click2", function(d){
@@ -156,6 +154,15 @@ d3.json("../data/data.json", function (error, root) {
 		.each(stash)
 		// mskim: append below
 		.on("mouseover", mouseover);
+
+	function findTree(d) {
+		let tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
+		if (!tree) {
+			findTree(d.parent);
+		}
+		tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
+		tree.dispatchEvent(new MouseEvent("click2"));
+	}
 	
 	// console.log(getLocks())
 	// updateLockInfo(node);
@@ -279,6 +286,22 @@ function mouseover(d) {
 	//
 	updateBreadcrumbs(sequenceArray, percentageString);
 
+	// hanggi
+	vis.selectAll("path.link")
+		.style("stroke", "#ccc")
+
+	function findT(d) {
+		let tree = d3.select("#tree_text_" + d.name).node()
+		if (tree) {
+			tree.dispatchEvent(new MouseEvent("mouseover2"));
+		} else {
+			findT(d.parent)
+		}
+	}
+
+	findT(d)
+	
+
 	// Fade all the segments.
 	d3.selectAll(".sun_path")
 		.style("opacity", 0.4);
@@ -296,6 +319,13 @@ function mouseleave(d) {
 	// Hide the breadcrumb trail
 	// d3.select("#trail")
 	// 	.style("visibility", "hidden");
+
+	// hanggi
+	// console.log("leave")
+	let tree = d3.select("#tree_text_" + d.name).node()
+	if (tree) {
+		tree.dispatchEvent(new MouseEvent("mouseleave"));
+	}
 
 	// Deactivate all segments during transition.
 	d3.selectAll(".sun_path").on("mouseover", null);
