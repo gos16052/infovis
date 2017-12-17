@@ -166,9 +166,26 @@ function update(source) {
 			// d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("mouseover", function (d) {
-			// let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
-			// sun.dispatchEvent(new MouseEvent("mouseover"))
+			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
+			sun.dispatchEvent(new MouseEvent("mouseover"))
+			// let link = d3.select("#link_" + d.name)
+			// link.style("stroke", "red")
+			linkPathColor(d, "red")
+		})
+		.on("mouseleave", function (d) {
+			linkPathColor(d, "#ccc")
 		});
+
+	function linkPathColor(d, color) {
+		console.log(d)
+		console.log(color)
+		let link = d3.select("#link_" + d.name)
+		link.style("stroke", color)
+		if (d.parent) {
+			linkPathColor(d.parent, color)
+		}
+		// console.log(link)
+	}
 
 	nodeEnter.append("svg:title")
 		.text(function (d) {
@@ -216,6 +233,10 @@ function update(source) {
 	// Enter any new links at the parent's previous position.
 	link.enter().insert("svg:path", "g")
 		.attr("class", "link")
+		.attr("id", function (d) {
+			console.log(d)
+			return "link_" + d.target.name
+		})
 		.attr("d", function (d) {
 			// console.log(d)
 			var o = {
@@ -234,7 +255,11 @@ function update(source) {
 	// Transition links to their new position.
 	link.transition()
 		.duration(duration)
-		.attr("d", diagonal);
+		.attr("d", diagonal)
+		// .on("mouseover", function (d) {
+		// 	// let sun = d3.select("#link_" + d.name).node()
+		// 	// console.log(snu)
+		// });
 
 	// Transition exiting nodes to the parent's new position.
 	link.exit().transition()
