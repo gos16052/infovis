@@ -143,12 +143,13 @@ d3.json("../data/data.json", function (error, root) {
 		})
 		.on("click", function(d){	
 			// console.log(d)
+			console.log("From sun click node, trigger tree click2")
 			let tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
 			console.log(tree.dispatchEvent(new MouseEvent("click2")));
 			click(d)
 		})
 		.on("click2", function(d){
-			console.log("click2 in sun")
+			console.log("Triggerd sun click2 from tree click!")
 			click(d)
 		})
 		.style("opacity", 1)

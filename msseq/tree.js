@@ -1,7 +1,7 @@
 var m = [20, 120, 20, 20],
 	w = 700 - m[1] - m[3],
 	h = 700 - m[0] - m[2],
-	i = 0,
+	I = 0,
 	root;
 
 
@@ -20,6 +20,7 @@ var vis = d3.select("#main").append("svg:svg")
 	.attr("id", "tree")
 	.attr("transform", "translate(" + (m[3] + 100) + "," + m[0] + ")");
 
+	
 d3.json("../data/data.json", function (json) {
 	root = json;
 	root.x0 = h / 2;
@@ -33,6 +34,7 @@ d3.json("../data/data.json", function (json) {
 	}
 
 	
+	cleanOther(root)
 	// console.log(3312412)
 	// console.log(path)
 
@@ -42,27 +44,27 @@ d3.json("../data/data.json", function (json) {
 	// toggle(root.children[1].children[2]);
 	// toggle(root.children[9]);
 	// toggle(root.children[9].children[0]);
-	cleanOther(root)
 
 	update(root);
 });
 
 function cleanOther(obj) {
 	// console.log(obj)
-	if (obj._children) {
-		for (let i = 0; i < obj._children.length; i++) {
-			if (obj._children[i].name == "other") {
-				obj._children.splice(i, 1)
+	// if (obj._children) {
+	// 	for (let i = 0; i < obj._children.length; i++) {
+	// 		if (obj._children[i].name == "other") {
+	// 			obj._children.splice(i, 1)
+	// 		} else {
+	// 			cleanOther(obj._children[i])
+	// 		}
+	// 	}
+	// } else 
+	if (obj.children) {
+		for (let ii = 0; ii < obj.children.length; ii++) {
+			if (obj.children[ii].name == "other") {
+				obj.children.splice(ii, 1)
 			} else {
-				cleanOther(obj._children[i])
-			}
-		}
-	} else if (obj.children) {
-		for (let i = 0; i < obj.children.length; i++) {
-			if (obj.children[i].name == "other") {
-				obj.children.splice(i, 1)
-			} else {
-				cleanOther(obj.children[i])
+				cleanOther(obj.children[ii])
 			}
 		}
 	}
@@ -72,10 +74,8 @@ function update(source) {
 	var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
 	// console.log(root)
-
 	// Compute the new tree layout.
 	var nodes = tree.nodes(root).reverse();
-
 	// Normalize for fixed-depth.
 	nodes.forEach(function (d) {
 		d.y = d.depth * 180;
@@ -86,7 +86,7 @@ function update(source) {
 	// Update the nodes…
 	var node = vis.selectAll("g.node")
 		.data(nodes, function (d) {
-			return d.id || (d.id = ++i);
+			return d.id || (d.id = ++I);
 		});
 
 	// var tt = getData()
@@ -106,13 +106,11 @@ function update(source) {
 	// }
 
 	// Enter any new nodes at the parent's previous position.
-	console.log(node.enter())
 	
 	var nodeEnter = node.enter().append("svg:g")
 		.attr("class", "node")
 		.attr("id", function (d) {return "tree_" + d.name + "-" + d.depth})
 		.attr("transform", function (d) {
-			// console.log(d)
 			return "translate(" + source.y0 + "," + source.x0 + ")";
 		})
 		.on("click", function (d) {
@@ -120,9 +118,7 @@ function update(source) {
 			update(d);
 			// clickNav(d)
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
-			// console.log("#sun_" + d.name)
 			sun.dispatchEvent(new MouseEvent("click2"));
-			
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("click2", function (d) {
@@ -164,9 +160,9 @@ function update(source) {
 			toggle(d);
 			// update(d);
 			// clickNav(d)
-			// let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
-			// console.log(sun.dispatchEvent(new MouseEvent("click")))
-			// d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
+			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
+			sun.dispatchEvent(new MouseEvent("click2"));
+			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("mouseover", function (d) {
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
