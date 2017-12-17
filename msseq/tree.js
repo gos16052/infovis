@@ -158,6 +158,7 @@ function update(source) {
 		.on("mouseleave", function (d) {
 			linkPathColor(d, "#ccc")
 		});
+		
 
 	function linkPathColor(d, color) {
 		let link = d3.select("#link_" + d.name)
