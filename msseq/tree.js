@@ -106,11 +106,13 @@ function update(source) {
 	// }
 
 	// Enter any new nodes at the parent's previous position.
+	console.log(node.enter())
 	
 	var nodeEnter = node.enter().append("svg:g")
 		.attr("class", "node")
 		.attr("id", function (d) {return "tree_" + d.name + "-" + d.depth})
 		.attr("transform", function (d) {
+			// console.log(d)
 			return "translate(" + source.y0 + "," + source.x0 + ")";
 		})
 		.on("click", function (d) {
@@ -142,6 +144,7 @@ function update(source) {
 			return d.url;
 		})
 		.append("svg:text")
+		.attr("class", "tree_text")
 		.attr("x", function (d) {
 			return d.children || d._children ? -30 : -30;
 		})
@@ -177,8 +180,6 @@ function update(source) {
 		});
 
 	function linkPathColor(d, color) {
-		console.log(d)
-		console.log(color)
 		let link = d3.select("#link_" + d.name)
 		link.style("stroke", color)
 		if (d.parent) {
@@ -234,7 +235,7 @@ function update(source) {
 	link.enter().insert("svg:path", "g")
 		.attr("class", "link")
 		.attr("id", function (d) {
-			console.log(d)
+			// console.log(d)
 			return "link_" + d.target.name
 		})
 		.attr("d", function (d) {
