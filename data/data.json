@@ -1,6 +1,6 @@
 {"name": "pblk_write_to_cache","children": [
     {"name": "pblk_rb_may_write_user","children": [
-            {"name": "_wlock_acquire","size": 1},
+            {"name": "_wlock_acquire","size": 15},
             {"name": "lock_wlock_usage","children":[
             {"name": "pblk_rl_user_may_insert","size":1},
             {"name": "pblk_rb_may_write_flush","children":[
@@ -13,15 +13,15 @@
                                     {"name":"pblk_trans_map_get","size":1},
                                     {"name":"pblk_map_invalidate","children":[
                                         {"name":"__pblk_maps_invalidate","children":[
-                                            {"name":"_linelock_acquire","size":7},
+                                            {"name":"_linelock_acquire","size":1},
                                             {"name":"lock_linelock_usage","children":[
                                                 {"name":"pblk_line_gc_list","size":1},
-                                                {"name":"other","size":1}
+                                                {"name":"other","size":1.3}
                                             ]},
-                                            {"name":"_lmggclock_acquire","size":7},
+                                            {"name":"_lmggclock_acquire","size":1},
                                             {"name":"lock_lmggclock_usage","children":[
                                                 {"name":"list_move_tail","size":1},
-                                                {"name":"other","size":1}
+                                                {"name":"other","size":2}
                                             ]},
                                             {"name":"other","size":1}
                                         ]},
@@ -34,12 +34,12 @@
                             ]},
                             {"name": "pblk_line_put", "children":[
                                 {"name":"__pblk_line_put","children":[
-                                    {"name":"_linelock_acquire","size":7},
+                                    {"name":"_linelock_acquire","size":1},
                                     {"name":"lock_linelock_usage","children":[
                                         {"name":"pblk_line_free","size":1},
                                         {"name":"other","size":1}
                                     ]},
-                                    {"name":"_lmgfreelock_acquire","size":7},
+                                    {"name":"_lmgfreelock_acquire","size":2},
                                     {"name":"lock_lmgfreelock_usage","children":[
                                         {"name":"list_add_tail","size":1},
                                         {"name":"other","size":1}
@@ -88,12 +88,12 @@
                 {"name":"pblk_ppa_empty","size":1},
                 {"name":"pblk_map_invalidate","children":[
                     {"name":"__pblk_map_invalidate","children":[
-                        {"name":"_linelock_acquire","size":7},
+                        {"name":"_linelock_acquire","size":2},
                         {"name":"lock_linelock_usage","children":[
                         {"name":"pblk_line_gc_list","size":1},
                         {"name":"other","size":1}
                         ]},
-                        {"name":"_lmggclock_acquire","size":7},
+                        {"name":"_lmggclock_acquire","size":1},
                         {"name":"lock_lmggclock_usage","children":[
                         {"name":"list_move_tail","size":1},
                         {"name":"other","size":1}
