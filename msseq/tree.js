@@ -149,6 +149,12 @@ function update(source) {
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
 		.on("mouseover", function (d) {
+			d3.selectAll(".tree_text")
+				.style("fill", "grey")
+
+			let treeText = d3.select("#tree_text_" + d.name).style("fill", "green")
+			let treeNode = d3.select("#tree_" + d.name + "-" + d.depth + " circle").style("fill", "green")
+			console.log(treeNode)
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			sun.dispatchEvent(new MouseEvent("mouseover"))
 			linkPathColor(d, "red")
@@ -165,6 +171,9 @@ function update(source) {
 			findT(d)
 		})
 		.on("mouseleave", function (d) {
+
+			let treeText = d3.select("#tree_text_" + d.name).style("fill", "grey")
+			let treeNode = d3.select("#tree_" + d.name + "-" + d.depth + " circle").style("fill", "white")
 			linkPathColor(d, "#ccc")
 		});
 
