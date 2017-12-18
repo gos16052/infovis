@@ -16,57 +16,57 @@
                                             {"name":"_linelock_acquire","size":1},
                                             {"name":"lock_linelock_usage","children":[
                                                 {"name":"pblk_line_gc_list","size":1},
-                                                {"name":"other","size":1.3}
+                                                {"name":"other","size":0.2}
                                             ]},
                                             {"name":"_lmggclock_acquire","size":1},
                                             {"name":"lock_lmggclock_usage","children":[
                                                 {"name":"list_move_tail","size":1},
-                                                {"name":"other","size":2}
+                                                {"name":"other","size":0.2}
                                             ]},
-                                            {"name":"other","size":1}
+                                            {"name":"other","size":0.2}
                                         ]},
-                                        {"name":"other","size":1}
+                                        {"name":"other","size":0.2}
                                 ]},
                                 {"name":"pblk_trans_map_set","size":1},
-                                {"name":"other","size":1}
+                                {"name":"other","size":0.2}
                                 ]},
-                                {"name":"other","size":1}
+                                {"name":"other","size":0.2}
                             ]},
                             {"name": "pblk_line_put", "children":[
                                 {"name":"__pblk_line_put","children":[
                                     {"name":"_linelock_acquire","size":1},
                                     {"name":"lock_linelock_usage","children":[
                                         {"name":"pblk_line_free","size":1},
-                                        {"name":"other","size":1}
+                                        {"name":"other","size":0.2}
                                     ]},
                                     {"name":"_lmgfreelock_acquire","size":2},
                                     {"name":"lock_lmgfreelock_usage","children":[
                                         {"name":"list_add_tail","size":1},
-                                        {"name":"other","size":1}
+                                        {"name":"other","size":0.2}
                                     ]},
                                     {"name":"pblk_rl_free_liince_inc","size":1},
-                                    {"name":"other","size":1}
+                                    {"name":"other","size":0.2}
                                 ]},
-                                {"name":"other","size":1}
+                                {"name":"other","size":0.2}
                             ]},
                             {"name": "clean_wctx", "children":[
                                 {"name":"pblk_ppa_set_empty","size":1},
-                                {"name":"other","size":1}
+                                {"name":"other","size":0.2}
                             ]},
                             {"name": "pblk_rl_out", "size":1},
-                            {"name": "other","size":1}
+                            {"name": "other","size":0.2}
                         ]},
-                        {"name": "other","size":1}
+                        {"name": "other","size":0.2}
                     ]},
-                    {"name": "other", "size":1}
+                    {"name": "other", "size":0.2}
                 ]},
                 {"name": "pblk_rb_sync_point_set","children":[
                     {"name":"_slockirq_acquire", "size":7},
                     {"name":"lock_slockirq_usage", "children":[
                         {"name":"bio_list_add","size":1},
-                        {"name":"other","size":1}
+                        {"name":"other","size":0.2}
                     ]},
-                    {"name":"other","size":1}
+                    {"name":"other","size":0.2}
                 ]},
                 {"name": "other","size": 1}
             ]},
@@ -91,25 +91,25 @@
                         {"name":"_linelock_acquire","size":2},
                         {"name":"lock_linelock_usage","children":[
                         {"name":"pblk_line_gc_list","size":1},
-                        {"name":"other","size":1}
+                        {"name":"other","size":0.2}
                         ]},
                         {"name":"_lmggclock_acquire","size":1},
                         {"name":"lock_lmggclock_usage","children":[
                         {"name":"list_move_tail","size":1},
-                        {"name":"other","size":1}
+                        {"name":"other","size":0.2}
                         ]},
-                        {"name":"other","size":1}
+                        {"name":"other","size":0.2}
                     ]},
-                    {"name":"other","size":1}
+                    {"name":"other","size":0.2}
                 ]},
                 {"name":"pblk_trans_map_set","size":1},
-                {"name":"other","size":1}
+                {"name":"other","size":0.2}
                 ]},
-                {"name":"other", "size":1}
+                {"name":"other", "size":0.2}
             ]},
-            {"name":"other","size":1}
+            {"name":"other","size":0.2}
         ]},
-        {"name":"other","size":1}
+        {"name":"other","size":0.2}
     ]},
     {"name": "pblk_rl_inserted","size": 1},
     {"name": "pblk_write_should_kick","children": [
