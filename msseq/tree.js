@@ -39,7 +39,7 @@ d3.json("../data/data.json", function (json) {
 	// console.log(path)
 
 	// Initialize the display to show a few nodes.
-	root.children.forEach(toggleAll);
+	// root.children.forEach(toggleAll);
 	// toggle(root.children[1]);
 	// toggle(root.children[1].children[2]);
 	// toggle(root.children[9]);
@@ -139,6 +139,15 @@ function update(source) {
 			sun.dispatchEvent(new MouseEvent("click2"));
 			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
 		})
+		.on("click2", function (d) {
+			toggle(d);
+			// update(d);
+			// clickNav(d)
+			console.log("Click tree text to trigger sun node click2!")
+			// let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
+			// sun.dispatchEvent(new MouseEvent("click2"));
+			d3.select("#tree").transition().duration(500).attr("transform", "translate(" + (m[3] - 140 * (d.depth - 1)) + "," + m[0] + ")");
+		})
 		.on("mouseover", function (d) {
 			let sun = d3.select("#sun_" + d.name + "-" + d.depth).node()
 			sun.dispatchEvent(new MouseEvent("mouseover"))
@@ -158,7 +167,7 @@ function update(source) {
 		.on("mouseleave", function (d) {
 			linkPathColor(d, "#ccc")
 		});
-		
+
 
 	function linkPathColor(d, color) {
 		let link = d3.select("#link_" + d.name)

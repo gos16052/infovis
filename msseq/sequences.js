@@ -154,7 +154,7 @@ d3.json("../data/data.json", function (error, root) {
 		.each(stash)
 		// mskim: append below
 		.on("mouseover", mouseover);
-		
+
 
 	function findTree(d) {
 		let tree = d3.select("#tree_" + d.name + "-" + d.depth).node()
@@ -406,6 +406,11 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 	function clickNav(d) {
 		node = d;
 
+		console.log(123)
+		let sun = d3.select("#tree_text_" + d.name).node()
+		if (sun) {
+			sun.dispatchEvent(new MouseEvent("click2"));
+		}
 		// mskim: leaf node는 size attribute 를가지는 것을 이용해서 size attribute가 있으면 return시킴
 		if (node.size) return;
 
