@@ -4,9 +4,7 @@
             {"name": "lock_wlock_usage","children":[
             {"name": "pblk_rl_user_may_insert","size":1},
             {"name": "pblk_rb_may_write_flush","children":[
-                {"name": "__pblk_rb_may_write","children":[
                     {"name": "pblk_rb_update_l2p","children":[
-                        {"name": "__pblk_rb_update_l2p","children":[
                             {"name": "pblk_rb_update_map_dev","children":[
                                 {"name":"_translock_acquire","size":7},
                                 {"name":"lock_translock_usage","children":[
@@ -55,11 +53,8 @@
                             ]},
                             {"name": "pblk_rl_out", "size":1},
                             {"name": "other","size":0.2}
-                        ]},
-                        {"name": "other","size":0.2}
                     ]},
-                    {"name": "other", "size":0.2}
-                ]},
+                    {"name": "other", "size":0.2},
                 {"name": "pblk_rb_sync_point_set","children":[
                     {"name":"_slockirq_acquire", "size":7},
                     {"name":"lock_slockirq_usage", "children":[

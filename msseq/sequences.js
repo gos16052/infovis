@@ -371,9 +371,9 @@ function initializeBreadcrumbTrail() {
 		.attr("height", 120)
 		.attr("id", "trail");
 	// Add the label at the end, for the percentage.
-	trail.append("svg:text")
-		.attr("id", "endlabel")
-		.style("fill", "#000");
+	// trail.append("svg:text")
+	// 	.attr("id", "endlabel")
+	// 	.style("fill", "#000");
 }
 
 // Generate a string that describes the points of a breadcrumb polygon.
@@ -601,14 +601,14 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
 
 	// Now move and update the percentage at the end.
-	d3.select("#trail").select("#endlabel")
-		.attr("x", function () {
-			return padding_left + 40;
-		})
-		.attr("y", b.h / 2)
-		.attr("dy", "0.35em")
-		.attr("text-anchor", "middle")
-		.text(percentageString);
+	// d3.select("#trail").select("#endlabel")
+	// 	.attr("x", function () {
+	// 		return padding_left + 40;
+	// 	})
+	// 	.attr("y", b.h / 2)
+	// 	.attr("dy", "0.35em")
+	// 	.attr("text-anchor", "middle")
+	// 	.text(percentageString);
 
 	// Make the breadcrumb trail visible, if it's hidden.
 	d3.select("#trail")
