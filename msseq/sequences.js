@@ -305,14 +305,16 @@ function mouseover(d) {
 
 	// Fade all the segments.
 	d3.selectAll(".sun_path")
-		.style("opacity", 0.4);
+		.style("opacity", 0.4)
+		.style("stroke", "white");
 
 	// Then highlight only those that are an ancestor of the current segment.
 	svg.selectAll(".sun_path")
 		.filter(function (node) {
 			return (sequenceArray.indexOf(node) >= 0);
 		})
-		.style("opacity", 1);
+		.style("opacity", 1)
+		.style("stroke", "#0f0");
 }
 
 // Restore everything to full opacity when moving off the visualization.
@@ -338,7 +340,8 @@ function mouseleave(d) {
 		.style("opacity", 1)
 		.each("end", function () {
 			d3.select(this).on("mouseover", mouseover);
-		});
+		})
+		.style("stroke", "white");
 
 	d3.select("#explanation")
 		.style("visibility", "hidden");
